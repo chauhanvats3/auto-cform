@@ -1,7 +1,7 @@
 {
-  "name": "Counter App",
-  "version": "1.0",
-  "description": "Counter example app",
+  "name": "Auto CForm",
+  "version": "0.1.0",
+  "description": "Automatically Fill CForm",
   "permissions": [
     "activeTab"
   ],
