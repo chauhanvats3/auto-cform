@@ -8,7 +8,7 @@
         "test",
         "chrome-extension"
       ],
-      "extensions": "js,jsx,svelte"
+      "extensions": "js,jsx,svelte,json"
     }
   },
   "scripts": {
