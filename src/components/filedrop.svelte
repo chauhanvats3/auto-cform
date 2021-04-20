@@ -58,7 +58,7 @@
     }
 
     let postMessageToBackground = (data) => {
-        var port = chrome.extension.connect({ //Create  a port to connect with background.js
+        var port = chrome.runtime.connect({ //Create  a port to connect with background.js
             name: "Inject CForm Data"
         });
         port.postMessage({ //message background script to do something

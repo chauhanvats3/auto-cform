@@ -65,14 +65,8 @@ function enterData() {
         }
     }
 
-    chrome.storage.local.get(['cformData'], function (result) {
-
-        /* ------------------ Setup Variables--------------------- */
-        let cformData = JSON.parse(result.cformData);
-        console.log(cformData)
-        let { basic, misc, visa, passport } = cformData;
-        /* ------------------------------------------------------- */
-
+    let setAllData = (cformData) => {
+        let { basic, misc, visa, passport, ref } = cformData;
 
         setTextInput("applicant_surname", basic.l_name)
         setTextInput("applicant_givenname", basic.f_name)
@@ -95,9 +89,9 @@ function enterData() {
         selectOption("applicant_permcountry", basic.country);
 
         /* ------------Setting Reference Address--------------------------- */
-        setTextInput("applicant_refaddr", "Shri Ganga View Guest House, Laxman Jhula")
-        handleDerivedSelect("applicant_refstate", "Uttarakhand", "applicant_refstatedistr", "Pauri Garhwal");
-        setTextInput("applicant_refpincode", "249302");
+        setTextInput("applicant_refaddr", ref.add)
+        handleDerivedSelect("applicant_refstate", ref.state, "applicant_refstatedistr", ref.dist);
+        setTextInput("applicant_refpincode", ref.pin);
         /* --------------------------------------------------------------- */
 
 
@@ -148,17 +142,38 @@ function enterData() {
         setTextInput("applicant_contactnoperm", misc.contact_info.permanent_number)
 
         /* ------------------------------------------------ */
+    }
 
+    chrome.storage.local.get(['cformData'], function (result) {
+
+        /* ------------------ Setup Variables--------------------- */
+        let cformData = JSON.parse(result.cformData);
+        console.log(cformData)
+        /* ------------------------------------------------------- */
+        chrome.storage.sync.get({
+            address: "",
+            state: "",
+            district: "",
+            pin: ""
+        }, function (items) {
+            cformData["ref"] = {}
+            cformData.ref.add = items.address
+            cformData.ref.state = items.state
+            cformData.ref.dist = items.district
+            cformData.ref.pin = items.pin
+
+            setAllData(cformData)
+
+        });
     });
 
     return "Injected";
-
 }
 
 
 
 
-chrome.extension.onConnect.addListener(function (port) { //Listen to any incoming messages
+chrome.runtime.onConnect.addListener(function (port) { //Listen to any incoming messages
     port.onMessage.addListener(function (msg) {
 
         chrome.storage.local.set({ 'cformData': msg.cformData }, function () {

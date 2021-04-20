@@ -1,1 +1,52 @@
-{"basic":{"f_name":"Vatsal","l_name":"Chauhan","sex":"Male","dob":"2010-04-16","sp_cat":"Crew","nationality":"AFGHANISTAN","address":"Shri Ganga View Guest House, Laxman Jhula, Pauri Garhwal","city":"Rishikesh","country":"AFGHANISTAN"},"passport":{"number":"QWDwdaS","city":"Rishikesh","country":"AFGHANISTAN","issue":"2021-04-08","expiry":"2021-04-30"},"visa":{"number":"dsfasdfasdf","city":"afsdfasd","country":"ALAND ISLANDS","issue":"2021-04-07","expiry":"2021-04-30","type":" CONFERENCE VISA","sub_type":" C-1  -    [Participant of conferences organized by government authorities]"},"misc":{"arrival":{"date":"2021-04-01","country":"AFGHANISTAN","city":"Pauri garhwal","place":"asdfasdf"},"intended_stay":"3","employed":"Yes","purpose":" Accompanying Parents","next_destination":{"india":"Yes","country":"Afghanistan","state":" ANDAMAN AND NICOBAR ISLANDS","city":"asdasda","district":" SOUTH ANDAMAN","place":"asdfasdf"},"contact_info":{"indian_number":"234323423","permanent_number":"234234234"}}}
+{
+    "basic": {
+        "f_name": "Vatsal",
+        "l_name": "Chauhan",
+        "sex": "Male",
+        "dob": "2010-04-16",
+        "sp_cat": "Crew",
+        "nationality": "AFGHANISTAN",
+        "address": "asdadq3wdwdsfwe f4f4 f23rf2w df",
+        "city": "asdawdqdas",
+        "country": "AFGHANISTAN"
+    },
+    "passport": {
+        "number": "QWDwdaS",
+        "city": "Rishikesh",
+        "country": "AFGHANISTAN",
+        "issue": "2021-04-08",
+        "expiry": "2021-04-30"
+    },
+    "visa": {
+        "number": "dsfasdfasdf",
+        "city": "afsdfasd",
+        "country": "ALAND ISLANDS",
+        "issue": "2021-04-07",
+        "expiry": "2021-04-30",
+        "type": " CONFERENCE VISA",
+        "sub_type": " C-1  -    [Participant of conferences organized by government authorities]"
+    },
+    "misc": {
+        "arrival": {
+            "date": "2021-04-01",
+            "country": "AFGHANISTAN",
+            "city": "Pauri garhwal",
+            "place": "asdfasdf"
+        },
+        "intended_stay": "3",
+        "employed": "Yes",
+        "purpose": " Accompanying Parents",
+        "next_destination": {
+            "india": "Yes",
+            "country": "Afghanistan",
+            "state": " ANDAMAN AND NICOBAR ISLANDS",
+            "city": "asdasda",
+            "district": " SOUTH ANDAMAN",
+            "place": "asdfasdf"
+        },
+        "contact_info": {
+            "indian_number": "234323423",
+            "permanent_number": "234234234"
+        }
+    }
+}

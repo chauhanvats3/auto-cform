@@ -1,0 +1,144 @@
+body, body *{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+p{
+    margin: 0;
+    padding: 0;
+    text-align: left !important;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.heading{
+    text-align: center;
+    font-size: 4rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: .1rem;
+}
+
+.form__group {
+    position: relative;
+    padding: 15px 0 0;
+    margin: 50px 30px 40px 30px;
+    width: 80%;
+    flex-flow: column nowrap;
+    max-width: 100ch;
+}
+
+.form__field {
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid #9b9b9b;
+    outline: 0;
+    font-size: 1.3rem;
+    color: rgb(0, 0, 0);
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color .5s ease-in;
+}
+
+.form__field::placeholder {
+    transition: all 0.3s ease-in-out;
+    color: transparent;
+    left: 35px;
+}
+
+.form__field:placeholder-shown~.form__label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
+}
+
+.form__label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    transition: 0.3s ease-in-out;
+    font-size: 1rem;
+    color: #9b9b9b;
+    text-align: left;
+}
+
+.hint {
+    display: none;
+    color: #094944;
+    font-size: 1.2rem;
+}
+
+.form__field:focus {
+    padding-bottom: 6px;
+    border-width: 2px;
+    border-image: linear-gradient(90deg, #24b7db, #b7db24);
+    border-image-slice: 1;
+}
+
+.form__field:focus::placeholder {
+    color: #bbbbbb;
+}
+
+.form__field:focus~.form__label {
+    position: absolute;
+    top: -45px;
+    left: 0px;
+    display: block;
+    transition: 0.2s;
+    font-size: 1.7rem;
+    color: #0f7970;
+}
+
+.form__field:focus~.form__label .hint {
+    display: block;
+}
+
+/* reset input */
+.form__field:required,
+.form__field:invalid {
+    box-shadow: none;
+}
+
+.cta{
+    max-width: 100ch;
+    width: 80%;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.btn{
+    width: 200px;
+    height: 100px;
+    margin: 20px;
+    font-size: 2.5rem;
+    cursor: pointer;
+}
+
+.reset{
+    background: #252525;
+    color: white;
+}
+
+.save{
+    background: #b7db24;
+    color: #252525;
+}
+
+.toast{
+    width: 80%;
+    max-width: 30ch;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.719);
+    border-radius: 10px;
+    font-size: 2rem;
+    color: white;
+    position: fixed;
+    bottom: -10%;
+    transition: all 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+
+.toast.show{
+    bottom: 45px;
+}
