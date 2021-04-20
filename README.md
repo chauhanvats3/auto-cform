@@ -1,11 +1,8 @@
-# Building your chrome extension
+#This extension automates the tedious task of having to fill guest details to the FRRO's CForm (aka Form C ) website.
+All you need to do is provide a JSON file and it will automatically fill all the fields except for the photograph.
 
-Run the following commands: 
-```bash
-npm i
-npm run build
-```
+#Example JSON File : https://github.com/chauhanvats3/auto-cform/blob/main/files/example.json
 
-Your extension build will be available within the `public` folder.
+#Set Reference Details by Right Click On Extension > Options.
 
-If you want to know more about this boilerplate, check out my [blog post](https://maurogarcia.dev/posts/how-to-build-your-next-chrome-extension-with-svelte)
+NOTE : You will need to Drop/Select File twice to fill the fields like district , visa subtypes etc

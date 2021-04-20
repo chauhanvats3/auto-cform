@@ -18,8 +18,9 @@ let saveOptions = () => {
         district: district,
         pin: pin
     }, function () {
+
         // Update status to let user know options were saved.
-        toast.innerHTML = "<p>Settings Saved</p>"
+        toast.innerText = "Settings Saved"
         toast.classList.add("show")
         setTimeout(() => {
             toast.classList.remove("show")
@@ -48,17 +49,28 @@ let resetOptions = () => {
     dist_input.value = ""
     pin_input.value = ""
 
-    saveOptions()
+    chrome.storage.sync.set({
+        address: add_input.value,
+        state: state_input.value,
+        district: dist_input.value,
+        pin: pin_input.value
+    }, function () {
 
-    toast.innerHTML = "<p>Settings Reset</p>"
-    toast.classList.add("show")
-    setTimeout(() => {
-        toast.classList.remove("show")
-    }, 2000);
+        // Update status to let user know options were reset.
+        toast.innerText = "Settings Reset"
+        toast.classList.add("show")
+        setTimeout(() => {
+            toast.classList.remove("show")
+        }, 2000);
+    });
 }
 
 document.addEventListener('DOMContentLoaded', restore_options);
 
 btnSave.addEventListener('click', (e) => {
     saveOptions()
+})
+
+btnReset.addEventListener('click', (e) => {
+    resetOptions()
 })
