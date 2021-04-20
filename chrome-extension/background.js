@@ -1,8 +1,16 @@
 function enterData() {
-    let selectOption = (options, matchTo) => {
+
+    let selectOption = (parentId, matchTo) => {
+        let options = document.getElementById(parentId).children;
         for (let i = 0; i < options.length; i++) {
-            if (options[i].innerHTML.trim().toLowerCase() === matchTo.toLowerCase())
+            if (options[i].innerHTML.trim().toLowerCase() === matchTo.trim().toLowerCase()) {
+
                 options[i].selected = true;
+                var event = new Event('change');
+                options[i].parentElement.dispatchEvent(event);
+
+                return;
+            }
         }
     }
 
@@ -12,30 +20,137 @@ function enterData() {
         else return `${str}`
     }
 
-    chrome.storage.local.get(['cformData'], function (result) {
-        let cformData = JSON.parse(result.cformData);
-        let date;
+    let getFormattedDate = (date_obj) => {
+        return `${lessThanTen(date_obj.getDate())}/${lessThanTen(date_obj.getMonth())}/${date_obj.getFullYear()}`
+    }
 
+    let handleDerivedSelect = (parentId, parentMatchTo, childId, childMatchTo) => {
+
+        let parent = document.getElementById(parentId)
+        let child = document.getElementById(childId)
+
+
+
+        if (parent.selectedOptions[0].innerHTML.trim().toLowerCase() !== parentMatchTo.trim().toLowerCase()) {
+            //if (parent.selectedOptions[0].innerHTML.trim().toLowerCase() === "select" && parent.selectedIndex === 0)
+            selectOption(parent.id, parentMatchTo);
+            /*  else
+                 selectOption(child.id, childMatchTo); */
+
+        } else {
+            selectOption(child.id, childMatchTo);
+        }
+    }
+
+    let setDateInput = (id, dateStr) => {
+        let element = document.getElementById(id)
+        let date = dateStr ? new Date(dateStr) : new Date(new Date().setMonth(new Date().getMonth() + 1));
+        element.value = getFormattedDate(date);
+    }
+
+    let setTextInput = (id, str) => {
+        let element = document.getElementById(id);
+        element.value = str;
+    }
+
+    let setRadioInput = (name, value) => {
+        let options = document.getElementsByName(name);
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].nextSibling.textContent.trim().toLowerCase() === value.trim().toLowerCase()) {
+                options[i].checked = true;
+                var event = new Event('click');
+                options[i].dispatchEvent(event);
+                return
+            }
+        }
+    }
+
+    chrome.storage.local.get(['cformData'], function (result) {
+
+        /* ------------------ Setup Variables--------------------- */
+        let cformData = JSON.parse(result.cformData);
         console.log(cformData)
         let { basic, misc, visa, passport } = cformData;
-        document.getElementById("applicant_surname").value = basic.l_name;
-        document.getElementById("applicant_givenname").value = basic.f_name;
-        selectOption(document.getElementById("applicant_sex").children, basic.sex);
+        /* ------------------------------------------------------- */
+
+
+        setTextInput("applicant_surname", basic.l_name)
+        setTextInput("applicant_givenname", basic.f_name)
+        selectOption("applicant_sex", basic.sex);
 
         document.getElementsByName("dobformat")[0].children[1].selected = true;
 
-        dob_obj = new Date(basic.dob);
-        let date_str = `${lessThanTen(dob_obj.getDate())}/${lessThanTen(dob_obj.getMonth())}/${dob_obj.getFullYear()}`
-        document.getElementById("applicant_dob").value = date_str;
+        /* ------------------SET Date Of Birth--------------------- */
+        setDateInput("applicant_dob", basic.dob);
+        var event = new Event('blur');
+        document.getElementById("applicant_dob").dispatchEvent(event);
+        /* -------------------------------------------------------- */
+
+        selectOption("applicant_special_category", basic.sp_cat);
+        selectOption("applicant_nationality", basic.nationality);
+
+        setTextInput("applicant_permaddr", basic.address)
+        setTextInput("applicant_permcity", basic.city)
+
+        selectOption("applicant_permcountry", basic.country);
+
+        /* ------------Setting Reference Address--------------------------- */
+        setTextInput("applicant_refaddr", "Shri Ganga View Guest House, Laxman Jhula")
+        handleDerivedSelect("applicant_refstate", "Uttarakhand", "applicant_refstatedistr", "Pauri Garhwal");
+        setTextInput("applicant_refpincode", "249302");
+        /* --------------------------------------------------------------- */
 
 
+        /* -------------Passport--------------- */
+        setTextInput("applicant_passpno", passport.number);
+        setTextInput("applicant_passplcofissue", passport.city);
+        selectOption("passport_issue_country", passport.country);
+        setDateInput("applicant_passpdoissue", passport.issue);
+        setDateInput("applicant_passpvalidtill", passport.expiry);
+        /* ------------------------------------ */
 
-        /* const script = document.createElement('script')
-        console.log(chrome.runtime.getURL('static/validateDOBFormat.js'));
-        script.src = chrome.runtime.getURL('static/validateDOBFormat.js')
-        document.documentElement.appendChild(script) */
+        /* -------------Visa--------------- */
+        setTextInput("applicant_visano", visa.number);
+        setTextInput("applicant_visaplcoissue", visa.city);
+        selectOption("visa_issue_country", visa.country);
+        setDateInput("applicant_visadoissue", visa.issue);
+        setDateInput("applicant_visavalidtill", visa.expiry);
+        handleDerivedSelect("applicant_visatype", visa.type, "applicant_visa_subtype_code", visa.sub_type);
+        /* ------------------------------------ */
+
+
+        /* -----------------Miscellaneous------------------ */
+        selectOption("applicant_arrivedfromcountry", misc.arrival.country)
+        setTextInput("applicant_arrivedfromcity", misc.arrival.city)
+        setTextInput("applicant_arrivedfromplace", misc.arrival.place)
+        setDateInput("applicant_doarrivalindia", misc.arrival.date);
+        setDateInput("applicant_doarrivalhotel", "");
+        setTextInput("applicant_timeoarrivalhotel", "11:00")
+        setTextInput("applicant_intnddurhotel", misc.intended_stay)
+        setRadioInput("employed", misc.employed)
+        selectOption("applicant_purpovisit", misc.purpose)
+
+        if (misc.next_destination.india === "Yes") {
+
+            setRadioInput("applicant_next_dest_country_flag_r", "Inside India")
+            handleDerivedSelect("applicant_next_destination_state_IN", misc.next_destination.state, "applicant_next_destination_city_district_IN", misc.next_destination.district);
+            setTextInput("applicant_next_destination_place_IN", misc.next_destination.place)
+
+        } else {
+
+            setRadioInput("applicant_next_dest_country_flag_r", "Outside India")
+            selectOption("applicant_next_destination_country_OUT", misc.next_destination.country)
+            setTextInput("applicant_next_destination_city_OUT", misc.next_destination.city)
+            setTextInput("applicant_next_destination_place_OUT", misc.next_destination.place)
+        }
+
+        setTextInput("applicant_contactnoinindia", misc.contact_info.indian_number)
+        setTextInput("applicant_contactnoperm", misc.contact_info.permanent_number)
+
+        /* ------------------------------------------------ */
 
     });
+
     return "Injected";
 
 }
